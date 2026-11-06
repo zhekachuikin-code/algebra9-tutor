@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Репетитор 9 клас</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
+  /* Layout: зліва зошит-«рейка» з темами обраного предмета, справа картка теми з трьома режимами роботи. */
   :root{
-    /* algebra (default) palette */
     --paper:#F4F6F1;
     --paper-2:#ECEFE7;
     --grid:#C7D3D9;
     --ink:#1F3A5F;
     --ink-2:#2C4F7C;
     --ink-soft:#5A7290;
+    --on-ink:#FFFFFF;
     --red:#B23A2E;
     --green:#3F7A5D;
     --amber:#B4791F;
@@ -23,55 +20,28 @@
     --line:#D8DED2;
     --text:#233127;
     --text-soft:#5B675C;
+    --hover:rgba(31,58,95,.06);
     --shadow: 0 1px 2px rgba(31,58,95,.06), 0 6px 20px rgba(31,58,95,.06);
-    --font-head: 'Fraunces', serif;
-    --font-body: 'Source Sans 3', -apple-system, sans-serif;
+    --font-head: 'Fraunces', Georgia, serif;
+    --font-body: 'Source Sans 3', -apple-system, 'Segoe UI', sans-serif;
     --font-hand: 'Caveat', cursive;
     --radius: 10px;
   }
-  :root[data-subject="history"]{
-    --paper:#F3ECDD;
-    --paper-2:#EAE0C7;
-    --grid:#D9CBAA;
-    --ink:#5C3A21;
-    --ink-2:#7A4E2C;
-    --ink-soft:#8C7256;
-    --red:#7A2E2E;
-    --green:#5C7A4E;
-    --amber:#B4791F;
-    --card:#FFFDF6;
-    --line:#E1D4B8;
-    --text:#3A2E22;
-    --text-soft:#786551;
-    --shadow: 0 1px 2px rgba(92,58,33,.08), 0 6px 20px rgba(92,58,33,.08);
-  }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper:#161B17; --paper-2:#1C221D; --grid:#2A3630;
-      --ink:#9FBEE8; --ink-2:#B7CDF0; --ink-soft:#7E97B8;
-      --red:#E08277; --green:#7FC7A2; --amber:#E3B15C;
-      --card:#1E241F; --line:#313C33; --text:#E7ECE4; --text-soft:#A7B3A3;
+      --paper:#161B17; --paper-2:#1C221D; --grid:#2A3630; --ink:#9FBEE8; --ink-2:#B7CDF0; --ink-soft:#7E97B8;
+      --on-ink:#10202F; --red:#E08277; --green:#7FC7A2; --amber:#E3B15C; --card:#1E241F; --line:#313C33;
+      --text:#E7ECE4; --text-soft:#A7B3A3; --hover:rgba(159,190,232,.10);
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
-    }
-    :root[data-subject="history"]:not([data-theme="light"]) {
-      --paper:#171310; --paper-2:#1D1813; --grid:#2E2620;
-      --ink:#E3B98C; --ink-2:#EDCBA3; --ink-soft:#B79A79;
-      --red:#E08277; --green:#8FBB80; --amber:#E3B15C;
-      --card:#211C16; --line:#352C22; --text:#EDE5D8; --text-soft:#B3A490;
+      color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --paper:#161B17; --paper-2:#1C221D; --grid:#2A3630;
-    --ink:#9FBEE8; --ink-2:#B7CDF0; --ink-soft:#7E97B8;
-    --red:#E08277; --green:#7FC7A2; --amber:#E3B15C;
-    --card:#1E241F; --line:#313C33; --text:#E7ECE4; --text-soft:#A7B3A3;
+    --paper:#161B17; --paper-2:#1C221D; --grid:#2A3630; --ink:#9FBEE8; --ink-2:#B7CDF0; --ink-soft:#7E97B8;
+    --on-ink:#10202F; --red:#E08277; --green:#7FC7A2; --amber:#E3B15C; --card:#1E241F; --line:#313C33;
+    --text:#E7ECE4; --text-soft:#A7B3A3; --hover:rgba(159,190,232,.10);
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
-  }
-  :root[data-subject="history"][data-theme="dark"] {
-    --paper:#171310; --paper-2:#1D1813; --grid:#2E2620;
-    --ink:#E3B98C; --ink-2:#EDCBA3; --ink-soft:#B79A79;
-    --red:#E08277; --green:#8FBB80; --amber:#E3B15C;
-    --card:#211C16; --line:#352C22; --text:#EDE5D8; --text-soft:#B3A490;
+    color-scheme: dark;
   }
 
   *{box-sizing:border-box;}
@@ -86,33 +56,35 @@
     font-size:15.5px;
     line-height:1.55;
     min-height:100vh;
-    transition: background-color .25s ease, color .25s ease;
   }
 
-  .app{ display:grid; grid-template-columns: 292px 1fr; min-height:100vh; }
+  .app{display:grid; grid-template-columns: 292px 1fr; min-height:100vh;}
   @media (max-width: 860px){
     .app{grid-template-columns: 1fr;}
-    .rail{position:relative; border-right:none; border-bottom:3px solid var(--red); max-height:none;}
+    .rail{position:relative; border-right:none; border-bottom:3px solid var(--red);}
   }
 
   /* ---------- Left rail ---------- */
   .rail{
-    background:var(--paper-2); border-right:3px solid var(--red);
-    padding:18px 0 30px; position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
+    background:var(--paper-2);
+    border-right:3px solid var(--red);
+    padding:22px 0 30px;
+    position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto;
   }
   @media (max-width:860px){ .rail{ position:static; height:auto; } }
 
-  .subject-switch{ display:flex; gap:6px; padding:0 16px 16px; }
-  .subject-btn{
-    flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
-    padding:9px 6px; border-radius:8px; border:1.4px solid var(--line); background:var(--card);
-    color:var(--text-soft); font-family:var(--font-body); font-weight:600; font-size:12.8px; cursor:pointer;
-  }
-  .subject-btn.active{ background:var(--ink); border-color:var(--ink); color:#fff; }
-
-  .brand{padding:0 20px 18px; border-bottom:1px solid var(--line); margin-bottom:14px;}
-  .brand .mark{ font-family:var(--font-head); font-weight:700; font-size:21px; color:var(--ink); letter-spacing:.2px; }
+  .brand{padding:0 20px 14px;}
+  .brand .mark{font-family:var(--font-head); font-weight:700; font-size:22px; color:var(--ink); letter-spacing:.2px;}
   .brand .sub{color:var(--text-soft); font-size:12.5px; margin-top:3px;}
+
+  .subj{display:grid; grid-template-columns:1fr 1fr; margin:0 20px 16px; border:1.4px solid var(--ink); border-radius:8px; overflow:hidden;}
+  .subj button{
+    font-family:var(--font-body); font-size:14px; font-weight:600; padding:9px 8px; cursor:pointer;
+    background:transparent; color:var(--ink); border:none;
+  }
+  .subj button + button{border-left:1.4px solid var(--ink);}
+  .subj button:hover{background:var(--hover);}
+  .subj button.active{background:var(--ink); color:var(--on-ink);}
 
   .progress-wrap{padding:0 20px 16px; border-bottom:1px solid var(--line); margin-bottom:8px;}
   .progress-label{display:flex; justify-content:space-between; font-size:12px; color:var(--text-soft); margin-bottom:6px;}
@@ -120,48 +92,37 @@
   .progress-fill{height:100%; background:var(--green); border-radius:4px; transition:width .4s ease;}
 
   .chapter{margin-top:6px;}
-  .chapter-head{
-    padding:10px 20px 6px; font-family:var(--font-head); font-weight:600; font-size:12.5px;
-    color:var(--ink-soft); letter-spacing:.1px; line-height:1.3;
-  }
+  .chapter-head{padding:10px 20px 6px; font-family:var(--font-head); font-weight:600; font-size:13.5px; color:var(--ink-soft);}
   .topic-btn{
     display:flex; align-items:center; gap:9px; width:100%; text-align:left;
     padding:8px 20px; border:none; background:transparent; cursor:pointer;
-    font-family:var(--font-body); font-size:13.4px; color:var(--text);
+    font-family:var(--font-body); font-size:13.6px; color:var(--text);
     border-left:3px solid transparent;
   }
-  .topic-btn:hover{background:rgba(0,0,0,.05);}
-  .topic-btn.active{
-    background:var(--card); border-left-color:var(--ink); color:var(--ink); font-weight:600;
-    box-shadow: inset 0 0 0 1px var(--line);
-  }
+  .topic-btn:hover{background:var(--hover);}
+  .topic-btn.active{background:var(--card); border-left-color:var(--ink); color:var(--ink); font-weight:600; box-shadow: inset 0 0 0 1px var(--line);}
   .topic-btn .num{
     flex:none; width:20px; height:20px; border-radius:50%; border:1.4px solid var(--ink-soft);
     display:flex; align-items:center; justify-content:center; font-size:10.5px; color:var(--ink-soft);
   }
-  .topic-btn.done .num{background:var(--green); border-color:var(--green); color:#fff;}
+  .topic-btn.done .num{background:var(--green); border-color:var(--green); color:var(--on-ink);}
   .topic-btn .ttl{flex:1; line-height:1.3;}
 
   /* ---------- Main ---------- */
-  .main{padding: 26px 30px 60px; max-width: 900px;}
+  .main{padding: 26px 30px 60px; max-width: 900px; min-width:0;}
   @media (max-width:600px){ .main{padding:18px 16px 40px;} }
 
   .topbar{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px;}
   .crumbs{font-size:12.5px; color:var(--text-soft);}
   .crumbs b{color:var(--ink);}
-  .reset-link{font-size:12px; color:var(--text-soft); background:none; border:none; cursor:pointer; text-decoration:underline; text-underline-offset:2px; padding:0;}
+  .reset-link{font-size:12px; color:var(--text-soft); background:none; border:none; cursor:pointer; text-decoration:underline; text-underline-offset:2px; padding:0; font-family:var(--font-body);}
+  .reset-link.armed{color:var(--red); font-weight:600;}
 
-  .topic-card{
-    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow); padding:22px 24px 20px; margin-bottom:18px;
-  }
-  .topic-title{font-family:var(--font-head); font-size:24px; font-weight:600; color:var(--ink); margin:0 0 8px; line-height:1.28;}
+  .topic-card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px 24px 20px; margin-bottom:18px;}
+  .topic-title{font-family:var(--font-head); font-size:25px; font-weight:600; color:var(--ink); margin:0 0 8px; line-height:1.25; text-wrap:balance;}
   .topic-blurb{color:var(--text-soft); font-size:14px; margin:0 0 16px; max-width:64ch;}
 
-  .mark-done{
-    display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text-soft);
-    cursor:pointer; user-select:none; margin-bottom:4px;
-  }
+  .mark-done{display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text-soft); cursor:pointer; user-select:none; margin-bottom:4px;}
   .mark-done input{accent-color:var(--green); width:15px; height:15px;}
 
   .tabs{display:flex; gap:6px; margin:16px 0 0; border-bottom:1px solid var(--line); flex-wrap:wrap;}
@@ -172,101 +133,87 @@
   }
   .tab.active{color:var(--ink); border-bottom-color:var(--ink);}
 
-  .panel{
-    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:var(--shadow); padding:20px 22px; min-height:220px;
-  }
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px 22px; min-height:220px;}
   .panel-hint{font-size:13px; color:var(--text-soft); margin:0 0 14px; padding-bottom:12px; border-bottom:1px dashed var(--line);}
   .panel-hint b{color:var(--amber); font-weight:600;}
 
   .chat-log{display:flex; flex-direction:column; gap:14px; margin-bottom:14px;}
-  .msg{max-width:86%; padding:11px 14px; border-radius:10px; font-size:14.5px; line-height:1.55;}
+  .msg{max-width:86%; padding:11px 14px; border-radius:10px; font-size:14.5px; line-height:1.55; overflow-wrap:anywhere;}
   .msg p{margin:0 0 8px;} .msg p:last-child{margin-bottom:0;}
   .msg ul{margin:6px 0; padding-left:20px;}
-  .msg.student{align-self:flex-end; background:var(--ink); color:#fff; border-bottom-right-radius:3px;}
+  .msg.student{align-self:flex-end; background:var(--ink); color:var(--on-ink); border-bottom-right-radius:3px;}
   .msg.tutor{align-self:flex-start; background:var(--paper-2); color:var(--text); border:1px solid var(--line); border-bottom-left-radius:3px;}
-  .msg.tutor .label, .msg.student .label{
-    display:block; font-family:var(--font-hand); font-size:15px; margin-bottom:2px; opacity:.75;
-  }
+  .msg .label{display:block; font-family:var(--font-hand); font-size:15px; margin-bottom:2px; opacity:.75;}
 
   .composer{display:flex; gap:8px; align-items:flex-end; margin-top:6px;}
   .composer textarea{
-    flex:1; resize:none; min-height:44px; max-height:160px; padding:11px 13px;
+    flex:1; min-width:0; resize:none; min-height:44px; max-height:160px; padding:11px 13px;
     border:1.4px solid var(--line); border-radius:8px; font-family:var(--font-body); font-size:14.5px;
     background:var(--paper); color:var(--text); line-height:1.4;
   }
   .composer textarea:focus{outline:none; border-color:var(--ink-soft);}
   .send-btn{
-    flex:none; background:var(--ink); color:#fff; border:none; border-radius:8px;
+    flex:none; background:var(--ink); color:var(--on-ink); border:none; border-radius:8px;
     padding:0 18px; height:44px; font-family:var(--font-body); font-weight:600; font-size:14px; cursor:pointer;
   }
   .send-btn:disabled{opacity:.5; cursor:default;}
   .send-btn:hover:not(:disabled){background:var(--ink-2);}
 
   .quick-row{display:flex; gap:8px; flex-wrap:wrap; margin:2px 0 14px;}
-  .quick-chip{
-    font-size:12.5px; padding:6px 11px; border-radius:999px; border:1px solid var(--line);
-    background:var(--paper); color:var(--ink-soft); cursor:pointer;
-  }
+  .quick-chip{font-size:12.5px; padding:6px 11px; border-radius:999px; border:1px solid var(--line); background:var(--paper); color:var(--ink-soft); cursor:pointer; font-family:var(--font-body);}
   .quick-chip:hover{border-color:var(--ink-soft); color:var(--ink);}
 
   .typing{display:inline-flex; gap:4px; align-items:center; padding:2px 0;}
   .typing span{width:5px; height:5px; border-radius:50%; background:var(--ink-soft); animation: blink 1.2s infinite ease-in-out;}
   .typing span:nth-child(2){animation-delay:.2s;} .typing span:nth-child(3){animation-delay:.4s;}
   @keyframes blink{0%,80%,100%{opacity:.25;} 40%{opacity:1;}}
+  @media (prefers-reduced-motion: reduce){ .typing span{animation:none; opacity:.6;} .progress-fill{transition:none;} }
 
   .quiz-card{border:1px solid var(--line); border-radius:9px; padding:16px 18px; background:var(--paper);}
   .quiz-q{font-size:15.5px; margin:0 0 12px; color:var(--text);}
+  .quiz-fig{font-size:13.5px; color:var(--text-soft); margin:0 0 12px; padding:8px 10px; border:1px dashed var(--line);}
+  .quiz-fig b{color:var(--amber); font-weight:600;}
   .quiz-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
-  .ghost-btn{
-    background:none; border:1.4px solid var(--line); color:var(--ink); border-radius:7px;
-    padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font-body);
-  }
+  .ghost-btn{background:none; border:1.4px solid var(--line); color:var(--ink); border-radius:7px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font-body);}
   .ghost-btn:hover{border-color:var(--ink-soft);}
-  .ghost-btn.primary{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .ghost-btn.primary{background:var(--ink); color:var(--on-ink); border-color:var(--ink);}
   .ghost-btn.primary:hover{background:var(--ink-2);}
   .reveal{margin-top:12px; padding-top:12px; border-top:1px dashed var(--line); font-size:14px;}
   .reveal .k{color:var(--amber); font-weight:600;}
-
   .empty-state{color:var(--text-soft); font-size:14px; text-align:center; padding:30px 10px;}
 
+  :focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
   ::-webkit-scrollbar{width:9px; height:9px;}
   ::-webkit-scrollbar-thumb{background:var(--line); border-radius:6px;}
 </style>
-</head>
-<body>
 
 <div class="app">
   <nav class="rail" id="rail">
-    <div class="subject-switch" id="subjectSwitch"></div>
     <div class="brand">
-      <div class="mark" id="brandMark"></div>
-      <div class="sub" id="brandSub"></div>
+      <div class="mark">Репетитор · 9 клас</div>
+      <div class="sub">За підручниками Мерзляка і Якіра</div>
     </div>
+    <div class="subj" id="subj" role="group" aria-label="Предмет"></div>
     <div class="progress-wrap">
-      <div class="progress-label"><span id="progressLabel"></span><span id="progressText"></span></div>
+      <div class="progress-label"><span>Пройдено пунктів</span><span id="progressText">0 / 0</span></div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     </div>
     <div id="chapters"></div>
   </nav>
 
-  <main class="main">
+  <main class="main" id="mainArea">
     <div class="topbar">
       <div class="crumbs" id="crumbs">Оберіть тему зліва</div>
-      <button class="reset-link" id="resetProgressBtn" title="Скинути прогрес із цього предмета">Скинути прогрес</button>
+      <button class="reset-link" id="resetProgressBtn">Скинути прогрес</button>
     </div>
     <div id="topicArea"></div>
   </main>
 </div>
 
 <script>
-const SERVER_URL = 'https://gemini-api-server-dnzk.onrender.com/api/generate';
-
-/* ================================================================
-   ALGEBRA — data & subject config
-   ================================================================ */
+/* ================= Data: textbook structure ================= */
 const ALG_CHAPTERS = [
-  { id:'s1', title:'§1. Неравенства', topics:[
+  { id:'s1', title:'§1. Нерівності', topics:[
     {id:1, title:'Числові нерівності', blurb:'Що означає "більше" і "менше" для чисел, і як порівнювати вирази через їхню різницю.'},
     {id:2, title:'Основні властивості числових нерівностей', blurb:'Правила, які дозволяють перетворювати нерівності, не порушуючи знак порівняння.'},
     {id:3, title:'Додавання і множення числових нерівностей. Оцінювання значення виразу', blurb:'Як із кількох нерівностей отримати нову й оцінити, у яких межах лежить вираз.'},
@@ -299,257 +246,119 @@ const ALG_CHAPTERS = [
   ]},
 ];
 
-function algChapterLabel(t){
-  const idx = ALG_CHAPTERS.findIndex(c => c.topics.some(x=>x.id===t.id));
-  return '§' + (idx+1);
-}
-
-const algebraSubject = {
-  key:'algebra', icon:'📐', navLabel:'Алгебра',
-  brandMark:'📐 Алгебра-9 · Репетитор', brandSub:'Мерзляк, Якір — підручник для 9 класу',
-  storeKey:'alg9_tutor_progress_v1', unitLabel:'Пройдено пунктів',
-  chapters: ALG_CHAPTERS,
-  crumbExtra: (t)=> ` · Пункт ${t.id}`,
-  titleFor: (t)=> `${t.id}. ${t.title}`,
-  doneLabel:'Позначити пункт як пройдений',
-  explainHint:'Я поясню тему своїми словами, з прикладами і запитаннями по ходу — не просто перекажу параграф.',
-  homeworkHint:'<b>Важливо:</b> надішли своє умова задачі та те, що вже пробував(ла). Я ставитиму навідні запитання, а не розв’язуватиму замість тебе.',
-  chipsExplain:['Поясни з самого початку', 'Наведи приклад', 'У чому тут складність для мене?'],
-  chipsHomework:['Я не знаю, з чого почати', 'Перевір моє розв’язання', 'Дай підказку, не розв’язання'],
-  placeholderExplain:'Запитай про тему або попроси пояснити з прикладом…',
-  placeholderHomework:'Опиши задачу своїми словами або встав умову…',
-  greetExplain:(title)=> `Привіт! Розбираємо пункт «${title}». З чого хочеш почати: із самого поняття, з прикладу чи в тебе вже є запитання?`,
-  greetHomework:(title)=> `Привіт! Надішли умову задачі за темою «${title}» і те, що ти вже встиг(ла) спробувати — навіть якщо це просто думки вголос. Далі розберемося разом.`,
-  quizIntro:(title)=> `Я згенерую задачу за темою «${title}». Спочатку розв’яжи сам(а) на чернетці — потім тисни «Показати підказку» або «Показати відповідь».`,
-  quizBtnLabel:'Дати задачу за темою',
-  quizEmpty:'Натисніть кнопку нижче, щоб отримати задачу.',
-  quizFail:'Не вдалося скласти задачу. Спробуй ще раз.',
-  answerBtnLabel:'Показати відповідь і розбір',
-  explanationLabel:'Розбір.',
-  systemPrompt(t, tab){
-    const base = `Ти — терплячий репетитор з алгебри для українського 9 класу, працюєш строго за підручником
-Мерзляка А. Г. і Якіра М. С. «Алгебра. 9 клас» (${algChapterLabel(t)}, пункт ${t.id}: «${t.title}»).
-Тема пункту: ${t.blurb}
-
-ГОЛОВНЕ ПРАВИЛО: ніколи не давай одразу готове розв’язання або готову відповідь, навіть якщо учень просить.
-Твоя робота — підвести учня до розуміння, а не розв’язати замість нього. Дій як хороший репетитор біля дошки:
-1) Спочатку зрозумій, що учень уже знає і де саме затримка — за потреби постав одне уточнювальне запитання.
-2) Веди маленькими кроками: став навідні запитання, пропонуй учневі зробити наступний крок самостійно.
-3) Якщо учень помилився — не кажи прямо "неправильно", допоможи йому самому знайти й зрозуміти помилку.
-4) Повне розв’язання можна показати лише якщо учень уже кілька разів пробував сам і явно просить фінальну
-   перевірку — і навіть тоді супроводжуй розв’язання поясненням "чому", а не лише формулами.
-5) Пиши компактно (зазвичай 3-6 речень), доброзичливо, українською мовою, без канцеляриту.
-   Математику пиши звичайним рядком: x^2, sqrt(x), <= , >=, використовуй ², ³, √, ≤, ≥, ± де доречно.
-6) Хвали за правильні кроки коротко й по суті, не будь приторним.
-7) Відповідай ЛИШЕ текстом власної репліки репетитора — без ярликів на кшталт "Репетитор:" і без переказу
-   попередніх реплік діалогу.`;
-    if(tab === 'explain'){
-      return base + `\n\nРежим: "Поясни тему". Учень хоче розібратися в новій темі з підручника. Пояснюй поняття
-своїми словами, з наочним прикладом, але чергуй пояснення з короткими перевірними запитаннями
-("а як думаєш, чому...", "спробуй сам продовжити..."), щоб учень не просто читав, а думав.`;
-    }
-    return base + `\n\nРежим: "Допоможи з домашнім завданням". Учень надіслав свою задачу або її частину. Не розв’язуй
-задачу повністю. Допоможи визначити, що потрібно знайти, який метод із цього пункту підходить, і дай учневі
-зробити наступний крок самостійно. Якщо учень надіслав своє розв’язання — спочатку оціни, де воно правильне,
-і м’яко вкажи напрям, де шукати помилку, не називаючи її прямо одразу.`;
-  },
-  quizPrompt(t){
-    return `Ти складаєш ОДНУ тренувальну задачу для українського 9 класу за підручником Мерзляка/Якіра,
-${algChapterLabel(t)}, пункт ${t.id}: «${t.title}» (${t.blurb}).
-Рівень — середній (не найлегший, не олімпіадний).
-Відповідай СТРОГО у форматі JSON без будь-яких пояснень до або після, без markdown-обрамлення:
-{
-  "problem": "текст задачі українською, компактно",
-  "hint": "одна навідна підказка, що не розкриває розв’язання",
-  "answer": "коротка фінальна відповідь",
-  "explanation": "3-5 речень чому це так, хід розв’язання крок за кроком"
-}
-Математику пиши звичайним текстом (x^2, sqrt, <=, >=, ², ³, √, ≤, ≥).`;
-  }
-};
-
-/* ================================================================
-   HISTORY — data & subject config
-   ================================================================ */
-const HIST_CHAPTERS = [
-  { id:'s0', title:'Вступ', topics:[
-    {id:0, title:'Вступ до курсу «"Довге" ХІХ століття в історії світу»', blurb:'Що таке «довге» ХІХ століття і чому історики виділяють цей період окремо.'},
+/* facts — опорні твердження підручника, які репетитор вважає істинними */
+const GEO_CHAPTERS = [
+  { id:'g-s1', title:'§1. Розв’язування трикутників', topics:[
+    {id:1, title:'Синус, косинус і тангенс кута від 0° до 180°', blurb:'Розширюємо означення синуса, косинуса й тангенса на тупі кути через одиничне півколо.',
+     facts:'Одиничне півколо: центр (0;0), радіус 1. Куту α відповідає точка M(x;y): cos α = x, sin α = y; tg α = sin α / cos α (α ≠ 90°). sin 0°=0, cos 0°=1, sin 90°=1, cos 90°=0, sin 180°=0, cos 180°=−1. 0 ≤ sin α ≤ 1, −1 ≤ cos α ≤ 1. Косинус тупого кута від’ємний. sin(180°−α)=sin α, cos(180°−α)=−cos α, tg(180°−α)=−tg α. sin²α+cos²α=1. sin(90°−α)=cos α.'},
+    {id:2, title:'Теорема косинусів', blurb:'Як за двома сторонами й кутом між ними знайти третю сторону, і як за сторонами визначити вид трикутника.',
+     facts:'a² = b² + c² − 2bc·cos α (теорема Піфагора — окремий випадок). Наслідок: нехай a — найбільша сторона. Якщо a² < b²+c², трикутник гострокутний; a² > b²+c² — тупокутний; a² = b²+c² — прямокутний. Сума квадратів діагоналей паралелограма дорівнює сумі квадратів усіх його сторін. Медіана до сторони c: m_c = ½·√(2a²+2b²−c²).'},
+    {id:3, title:'Теорема синусів', blurb:'Сторони пропорційні синусам протилежних кутів; зв’язок із радіусом описаного кола.',
+     facts:'a/sin α = b/sin β = c/sin γ = 2R. Лема про хорду: хорда дорівнює добутку діаметра на синус будь-якого вписаного кута, що на неї спирається. R = a/(2 sin α). Коли відомо дві сторони й кут проти однієї з них, sin шуканого кута знаходять за теоремою синусів; кут може бути гострим або 180° мінус гострий — перевіряють, чи сума кутів менша від 180° і чи проти більшої сторони більший кут.'},
+    {id:4, title:'Розв’язування трикутників', blurb:'Знаходимо всі невідомі сторони й кути за трьома даними елементами.',
+     facts:'Розв’язати трикутник — знайти решту елементів за трьома даними (хоча б одна — сторона). Сторона і два кути: третій кут = 180° − сума двох, далі теорема синусів. Дві сторони і кут між ними: теорема косинусів для третьої сторони, далі кути. Три сторони: теорема косинусів для кутів. Дві сторони і кут проти однієї з них: теорема синусів, випадків може бути 0, 1 або 2. Сума кутів трикутника 180°.'},
+    {id:5, title:'Формули для знаходження площі трикутника', blurb:'Площа через два боки й кут, формула Герона, радіуси вписаного й описаного кіл.',
+     facts:'S = ½·a·b·sin γ. Формула Герона: S = √(p(p−a)(p−b)(p−c)), p — півпериметр. S = abc/(4R), отже R = abc/(4S). S = p·r, отже r = S/p. Площа паралелограма S = ab·sin α. Площа опуклого чотирикутника = ½·d1·d2·sin φ, де φ — кут між діагоналями. Площа описаного многокутника = p·r.'},
   ]},
-  { id:'s1', title:'Розділ I. Європа в час Французької революції та наполеонівських воєн', topics:[
-    {id:1, title:'Французька революція наприкінці XVIII ст.', blurb:'Причини, основні події та перші наслідки Французької революції 1789 року.'},
-    {id:2, title:'Від якобінської диктатури до режиму Директорії', blurb:'Радикалізація революції, терор і те, чим завершилися революційні перетворення у Франції.'},
-    {id:3, title:'Консульство й імперія у Франції', blurb:'Як Наполеон Бонапарт прийшов до влади і перетворив Францію на імперію.'},
+  { id:'g-s2', title:'§2. Правильні многокутники', topics:[
+    {id:6, title:'Правильні многокутники та їхні властивості', blurb:'Кути, центральний кут, вписане й описане кола правильного n-кутника.',
+     facts:'Правильний многокутник: усі сторони рівні й усі кути рівні. Кут правильного n-кутника = 180°(n−2)/n. Центральний кут = 360°/n. Правильний многокутник можна вписати в коло й описати навколо кола, центри збігаються. R_n = a/(2·sin(180°/n)), r_n = a/(2·tg(180°/n)). Трикутник: R = a√3/3, r = a√3/6. Квадрат: R = a√2/2, r = a/2. Шестикутник: R = a, r = a√3/2. Сума кутів опуклого n-кутника 180°(n−2).'},
+    {id:7, title:'Довжина кола. Площа круга', blurb:'Довжина кола й дуги, площа круга, сектора й сегмента.',
+     facts:'C = 2πR. Довжина дуги в n°: l = πRn/180. Площа круга S = πR². Площа сектора з дугою n°: S = πR²n/360. Площа сегмента: від площі сектора віднімають площу трикутника AOB (менший сегмент) або додають її (більший сегмент). Площа півкруга πR²/2. π ≈ 3,14.'},
   ]},
-  { id:'s2', title:'Розділ II. Європа й Америка в добу революцій і національного об’єднання (1815–1870)', topics:[
-    {id:4, title:'Індустріальна революція в країнах Західної Європи та її наслідки', blurb:'Перехід від ручної праці до машинного виробництва і як це змінило суспільство.'},
-    {id:5, title:'Спроби осмислення нової дійсності. Ідеології XIX ст.', blurb:'Лібералізм, консерватизм, соціалізм і націоналізм як відповіді на зміни доби.'},
-    {id:6, title:'Велика Британія', blurb:'Політичний та економічний розвиток Британії в середині ХІХ століття.'},
-    {id:7, title:'Франція в період Реставрації Бурбонів і Липневої монархії', blurb:'Повернення монархії у Франції та причини нової революції 1830 року.'},
-    {id:8, title:'Австрійська імперія доби Клемента фон Меттерніха', blurb:'Політика Меттерніха і «система» збереження старого порядку в Європі.'},
-    {id:9, title:'«Весна народів»', blurb:'Хвиля революцій 1848–1849 років у Європі та їхні наслідки.'},
-    {id:10, title:'Об’єднання Німеччини й Італії', blurb:'Як роздроблені німецькі та італійські землі перетворилися на єдині держави.'},
-    {id:11, title:'Російська імперія в першій половині ХІХ ст.', blurb:'Внутрішня політика, кріпацтво та рух декабристів у Російській імперії.'},
-    {id:12, title:'Громадянська війна в США та Реконструкція Півдня', blurb:'Причини й наслідки Громадянської війни, скасування рабства в США.'},
+  { id:'g-s3', title:'§3. Декартові координати на площині', topics:[
+    {id:8, title:'Відстань між двома точками. Координати середини відрізка', blurb:'Формули відстані й середини відрізка та як ними доводити властивості фігур.',
+     facts:'AB = √((x2−x1)² + (y2−y1)²). Середина відрізка: x0 = (x1+x2)/2, y0 = (y1+y2)/2. Трикутник рівнобедрений — за рівними сторонами; прямокутний — за оберненою теоремою Піфагора. Чотирикутник — паралелограм, якщо діагоналі мають спільну середину; прямокутник — якщо ще й діагоналі рівні.'},
+    {id:9, title:'Рівняння фігури. Рівняння кола', blurb:'Що таке рівняння фігури й як записати рівняння кола.',
+     facts:'Рівняння фігури F — рівняння з двома змінними, яке задовольняють координати кожної точки F і лише вони. Коло з центром (a;b) і радіусом R: (x−a)² + (y−b)² = R². З центром у початку координат: x² + y² = R². Щоб із рівняння вигляду x²+y²+px+qy+c=0 знайти центр і радіус, виділяють повні квадрати.'},
+    {id:10, title:'Рівняння прямої', blurb:'Загальне рівняння прямої, вертикальні й невертикальні прямі.',
+     facts:'Рівняння прямої: ax + by = c, де a і b одночасно не дорівнюють нулю. Якщо b = 0, пряма вертикальна: x = c/a. Якщо b ≠ 0, її записують як y = kx + p. Пряма через дві точки: підставити координати в y = kx + p і розв’язати систему; якщо абсциси рівні — пряма вертикальна. Точки перетину з осями: y=0 дає x, x=0 дає y. Пряма й коло можуть мати 0, 1 або 2 спільні точки (система рівнянь).'},
+    {id:11, title:'Кутовий коефіцієнт прямої', blurb:'Як кутовий коефіцієнт пов’язаний із нахилом прямої й паралельністю.',
+     facts:'У рівнянні y = kx + b число k — кутовий коефіцієнт, k = tg α, де α — кут між прямою й додатним напрямком осі абсцис. Прямі y = k1x + b1 і y = k2x + b2 паралельні тоді й тільки тоді, коли k1 = k2 і b1 ≠ b2. Для перпендикулярних невертикальних прямих k1·k2 = −1. Кут α гострий при k > 0 і тупий при k < 0.'},
   ]},
-  { id:'s3', title:'Розділ III. Модернізація країн Європи й Америки в останній третині ХІХ — на початку ХХ ст. «Пробудження Азії»', topics:[
-    {id:13, title:'Завершення формування індустріального суспільства в розвинених країнах світу', blurb:'Друга промислова революція та нові риси індустріального суспільства.'},
-    {id:14, title:'Франко-прусська війна та її наслідки. Третя республіка у Франції', blurb:'Поразка Франції у війні з Пруссією і встановлення республіканського ладу.'},
-    {id:15, title:'Німецька імперія. Перехід Німеччини до «світової політики»', blurb:'Об’єднана Німеччина під проводом Бісмарка та її зовнішньополітичні амбіції.'},
-    {id:16, title:'Велика Британія', blurb:'Британська імперія на піку могутності наприкінці ХІХ століття.'},
-    {id:17, title:'Сполучені Штати Америки', blurb:'Стрімке економічне зростання США після Громадянської війни.'},
-    {id:18, title:'Російська імперія в останній третині ХІХ – на початку ХХ ст.', blurb:'Реформи, індустріалізація та наростання суспільної напруги в імперії.'},
-    {id:19, title:'Австро-Угорщина — дуалістична монархія', blurb:'Особливості устрою багатонаціональної Австро-Угорської імперії.'},
-    {id:20, title:'Утворення нових незалежних держав на Балканах', blurb:'Розпад османського панування і поява нових балканських держав.'},
-    {id:21, title:'«Пробудження Азії»', blurb:'Реформи та національні рухи в Японії, Китаї, Індії та інших країнах Азії.'},
+  { id:'g-s4', title:'§4. Вектори', topics:[
+    {id:12, title:'Поняття вектора', blurb:'Вектор як напрямлений відрізок, модуль, колінеарні й рівні вектори.',
+     facts:'Вектор — напрямлений відрізок: початок A, кінець B, позначення AB. Модуль |AB| — довжина відрізка AB; модуль нульового вектора 0. Колінеарні вектори лежать на одній прямій або на паралельних прямих; вони співнапрямлені або протилежно напрямлені. Рівні вектори: однакові модулі й співнапрямлені. Від будь-якої точки можна відкласти єдиний вектор, рівний даному. Якщо AB = DC як вектори й точки не лежать на одній прямій, то ABCD — паралелограм.'},
+    {id:13, title:'Координати вектора', blurb:'Як знайти координати й модуль вектора за координатами його кінців.',
+     facts:'Вектор AB з A(x1;y1), B(x2;y2) має координати (x2−x1; y2−y1). Модуль вектора a(a1;a2): |a| = √(a1²+a2²). Рівні вектори мають рівні відповідні координати, і навпаки. Нульовий вектор має координати (0;0).'},
+    {id:14, title:'Додавання і віднімання векторів', blurb:'Правила трикутника й паралелограма, різниця векторів, протилежні вектори.',
+     facts:'Правило трикутника: AB + BC = AC. Правило паралелограма для двох векторів з однієї точки. Координати суми: (a1+b1; a2+b2); різниці: (a1−b1; a2−b2). Різниця: якщо відкласти OA = a і OB = b, то a − b = BA. Протилежний вектор −a має координати (−a1; −a2); AB = −BA. Властивості: a+b = b+a, (a+b)+c = a+(b+c), a+(−a) = 0.'},
+    {id:15, title:'Множення вектора на число', blurb:'Вектор ka, колінеарність, середина відрізка через вектори.',
+     facts:'|ka| = |k|·|a|; ka співнапрямлений з a при k > 0 і протилежно напрямлений при k < 0. Координати ka = (ka1; ka2). Якщо a ≠ 0 і b колінеарний a, то існує k таке, що b = ka; за координатами — пропорційність b1 = k·a1, b2 = k·a2. Властивості: (km)a = k(ma), (k+m)a = ka + ma, k(a+b) = ka + kb. Середина M відрізка AB: XM = ½(XA + XB). Якщо AM : MB = m : n, то XM = (n/(m+n))·XA + (m/(m+n))·XB.'},
+    {id:16, title:'Скалярний добуток векторів', blurb:'Кут між векторами, скалярний добуток, перпендикулярність і косинус кута.',
+     facts:'a·b = |a|·|b|·cos φ, де φ — кут між векторами (0° ≤ φ ≤ 180°). У координатах a·b = a1b1 + a2b2. Скалярний квадрат a² = |a|². Для ненульових векторів a·b = 0 тоді й тільки тоді, коли a ⊥ b. cos φ = (a·b)/(|a|·|b|). Добуток додатний при гострому куті й від’ємний при тупому. Властивості: a·b = b·a, (ka)·b = k(a·b), a·(b+c) = a·b + a·c.'},
   ]},
-  { id:'s4', title:'Розділ IV. Міжнародні відносини (друга половина ХІХ — початок ХХ ст.)', topics:[
-    {id:22, title:'Міжнародні відносини наприкінці ХІХ ст.', blurb:'Формування союзів великих держав і боротьба за колонії.'},
-    {id:23, title:'Міжнародні кризи та збройні конфлікти наприкінці XIX — на початку ХХ ст.', blurb:'Кризи й локальні війни, що наближали світ до глобального конфлікту.'},
-  ]},
-  { id:'s5', title:'Розділ V. Розвиток культури та повсякденне життя наприкінці XVIII — на початку ХХ ст.', topics:[
-    {id:24, title:'Освіта, наука, технічний прогрес у період «довгого» ХІХ ст.', blurb:'Наукові відкриття, винаходи та розвиток освіти цієї доби.'},
-    {id:25, title:'Індустріальні та традиційні суспільства', blurb:'Як по-різному змінювалося повсякденне життя в індустріальних і традиційних суспільствах.'},
+  { id:'g-s5', title:'§5. Геометричні перетворення', topics:[
+    {id:17, title:'Рух (переміщення) фігури. Паралельне перенесення', blurb:'Що таке перетворення й рух, рівні фігури, перенесення на вектор.',
+     facts:'Перетворення фігури, що зберігає відстані між точками, — рух (переміщення). Дві фігури рівні, якщо існує рух, який переводить одну в іншу. Паралельне перенесення на вектор a: точка X переходить у X1, де XX1 = a; це рух. Якщо (x;y) → (x+m; y+n), то це перенесення на вектор (m;n). Образ прямої — пряма, відрізка — рівний відрізок, кута — рівний кут, трикутника — рівний трикутник, кола — коло того самого радіуса. Тотожне перетворення — теж рух.'},
+    {id:18, title:'Осьова симетрія', blurb:'Симетричні точки й фігури відносно прямої, осі симетрії фігур.',
+     facts:'Точки A і A1 симетричні відносно прямої l, якщо l — серединний перпендикуляр відрізка AA1; точки самої прямої симетричні самі собі. Осьова симетрія — рух. Відносно осі абсцис (x;y) → (x;−y); відносно осі ординат (x;y) → (−x;y). Осі симетрії: рівнобедрений трикутник — 1, рівносторонній — 3, квадрат — 4, коло — безліч. Типова ідея задач: найкоротший шлях через точку на прямій знаходять, відбивши точку відносно прямої.'},
+    {id:19, title:'Центральна симетрія. Поворот', blurb:'Симетрія відносно точки, поворот навколо точки на заданий кут.',
+     facts:'Точки A і A1 симетричні відносно точки O, якщо O — середина AA1. Центральна симетрія — рух; це поворот на 180°. Відносно початку координат (x;y) → (−x;−y). Образ прямої при центральній симетрії — паралельна пряма (або та сама, якщо пряма проходить через центр). Центри симетрії: середина відрізка, точка перетину діагоналей паралелограма, центр кола. Поворот на кут α навколо O: OX1 = OX і ∠XOX1 = α (за або проти годинникової стрілки); це рух.'},
+    {id:20, title:'Подібність фігур', blurb:'Перетворення подібності, коефіцієнт подібності, гомотетія, площі подібних фігур.',
+     facts:'Перетворення подібності змінює всі відстані в k разів (k — коефіцієнт подібності). Гомотетія з центром O і коефіцієнтом k: OX1 = k·OX; відстані змінюються в |k| разів; при k = −1 це центральна симетрія, при k = 1 — тотожне перетворення. Подібні фігури: одну отримують із другої композицією гомотетії та руху. Відношення площ подібних многокутників дорівнює k². Образ прямої — пряма (при гомотетії паралельна), кута — рівний кут, кола — коло.'},
   ]},
 ];
 
-function histChapterTitle(t){
-  const idx = HIST_CHAPTERS.findIndex(c => c.topics.some(x=>x.id===t.id));
-  return HIST_CHAPTERS[idx] ? HIST_CHAPTERS[idx].title : '';
-}
-
-const historySubject = {
-  key:'history', icon:'📜', navLabel:'Історія',
-  brandMark:'📜 Всесвітня історія-9 · Репетитор', brandSub:'Полянський — підручник для 9 класу',
-  storeKey:'hist9_tutor_progress_v1', unitLabel:'Пройдено параграфів',
-  chapters: HIST_CHAPTERS,
-  crumbExtra: (t)=> t.id>0 ? ` · § ${t.id}` : '',
-  titleFor: (t)=> `${t.id>0 ? '§ '+t.id+'. ' : ''}${t.title}`,
-  doneLabel:'Позначити параграф як пройдений',
-  explainHint:'Я поясню тему своїми словами, з прикладами й запитаннями по ходу — не просто перекажу параграф.',
-  homeworkHint:'<b>Важливо:</b> надішли своє завдання (питання з підручника, есе, порівняльну характеристику тощо). Я ставитиму навідні запитання, а не писатиму відповідь замість тебе.',
-  chipsExplain:['Поясни з самого початку', 'Наведи приклад', 'Чому це важливо?'],
-  chipsHomework:['Я не знаю, з чого почати', 'Допоможи побудувати відповідь', 'Дай підказку, не готову відповідь'],
-  placeholderExplain:'Запитай про тему або попроси пояснити з прикладом…',
-  placeholderHomework:'Опиши завдання своїми словами або встав умову…',
-  greetExplain:(title)=> `Привіт! Розбираємо «${title}». З чого хочеш почати: із самого поняття, з прикладу чи в тебе вже є запитання?`,
-  greetHomework:(title)=> `Привіт! Надішли своє завдання за темою «${title}» і те, що ти вже встиг(ла) продумати — навіть якщо це просто думки вголос. Далі розберемося разом.`,
-  quizIntro:(title)=> `Я згенерую питання за темою «${title}». Спочатку спробуй відповісти сам(а) — потім тисни «Показати підказку» або «Показати відповідь».`,
-  quizBtnLabel:'Дати питання за темою',
-  quizEmpty:'Натисніть кнопку нижче, щоб отримати питання.',
-  quizFail:'Не вдалося скласти питання. Спробуй ще раз.',
-  answerBtnLabel:'Показати відповідь і пояснення',
-  explanationLabel:'Пояснення.',
-  systemPrompt(t, tab){
-    const base = `Ти — терплячий репетитор із всесвітньої історії для українського 9 класу, працюєш строго за підручником
-Павла Полянського «Всесвітня історія» (${histChapterTitle(t)}${t.id>0 ? ', § '+t.id : ''}: «${t.title}»).
-Тема параграфа: ${t.blurb}
-
-ГОЛОВНЕ ПРАВИЛО: ніколи не пиши одразу готову відповідь, есе чи розгорнуту характеристику за учня, навіть якщо він просить.
-Твоя робота — підвести учня до розуміння причин, наслідків і значення подій, а не розповісти замість нього. Дій як хороший репетитор:
-1) Спочатку зрозумій, що учень уже знає і з чим саме плутається — за потреби постав одне уточнювальне запитання.
-2) Веди маленькими кроками: питай про причини, наслідки, дійових осіб, дати й факти, а не видавай готову відповідь одразу.
-3) Заохочуй працювати з конкретними фактами й джерелами з підручника (рубрика «Свідчення»), а не лише загальними враженнями.
-4) Якщо учень помилився у факті чи даті — не кажи прямо "неправильно", допоможи йому самому перевірити й виправити.
-5) Повну розгорнуту відповідь чи структуру есе можна показати лише якщо учень уже кілька разів пробував сам і явно
-   просить фінальну перевірку — і навіть тоді пояснюй, чому саме такий висновок логічний, а не просто видавай готовий текст.
-6) Пиши компактно (зазвичай 3-6 речень), доброзичливо, українською мовою, без канцеляриту.
-7) Хвали за влучні спостереження коротко й по суті, не будь приторним.
-8) Відповідай ЛИШЕ текстом власної репліки репетитора — без ярликів на кшталт "Репетитор:" і без переказу
-   попередніх реплік діалогу.`;
-    if(tab === 'explain'){
-      return base + `\n\nРежим: "Поясни тему". Учень хоче розібратися в новій темі з підручника. Пояснюй причини й наслідки
-подій своїми словами, з конкретними прикладами, але чергуй пояснення з короткими перевірними запитаннями
-("а як думаєш, чому...", "що, на твою думку, змінилося після цього..."), щоб учень не просто читав, а думав.`;
-    }
-    return base + `\n\nРежим: "Допоможи з домашнім завданням". Учень надіслав своє завдання (питання з підручника, есе,
-порівняльну характеристику тощо) або його частину. Не пиши текст відповіді чи есе за нього. Допоможи визначити,
-які факти, причини й наслідки варто згадати, яку структуру аргументу обрати, і дай учневі сформулювати думку
-самостійно. Якщо учень надіслав свій чорновик — спочатку відзнач, що в ньому сильне, і м’яко вкажи, що варто
-підкріпити фактами чи логікою, не переписуючи все за нього.`;
-  },
-  quizPrompt(t){
-    return `Ти складаєш ОДНЕ питання для перевірки знань учня 9 класу за підручником Полянського "Всесвітня історія",
-${histChapterTitle(t)}${t.id>0 ? ', § '+t.id : ''}: «${t.title}» (${t.blurb}).
-Рівень — середній (не найлегший, не олімпіадний). Питання може стосуватися причин, наслідків, дат чи дійових осіб.
-Відповідай СТРОГО у форматі JSON без будь-яких пояснень до або після, без markdown-обрамлення:
-{
-  "problem": "текст питання українською, компактно",
-  "hint": "одна навідна підказка, що не розкриває відповідь",
-  "answer": "коротка чітка відповідь",
-  "explanation": "3-5 речень пояснення чому це так, з опорою на факти параграфа"
-}`;
-  }
+const SUBJECTS = {
+  alg: { label:'Алгебра',   book:'«Алгебра. 9 клас»',   prefix:'',  chapters: ALG_CHAPTERS },
+  geo: { label:'Геометрія', book:'«Геометрія. 9 клас»', prefix:'g', chapters: GEO_CHAPTERS },
 };
-
-const SUBJECTS = { algebra: algebraSubject, history: historySubject };
-
-/* ================================================================
-   Shared state
-   ================================================================ */
-let activeSubject = 'algebra';
-let selection = {
-  algebra: { topicId:null, tab:'explain' },
-  history: { topicId:null, tab:'explain' },
-};
-const SUBJECTS_KEYS = { algebra:'alg9_tutor_progress_v1', history:'hist9_tutor_progress_v1' };
-const progressStore = {
-  algebra: loadProgress('algebra'),
-  history: loadProgress('history'),
-};
-const conversations = {}; // key: `${subject}::${topicId}::${tab}` -> [{role, content}]
-
-function subj(){ return SUBJECTS[activeSubject]; }
-
-function loadProgress(subjectKey){
-  try{
-    const raw = localStorage.getItem(SUBJECTS_KEYS[subjectKey]);
-    return raw ? JSON.parse(raw) : { done:{} };
-  }catch(e){ return { done:{} }; }
-}
-function saveProgress(subjectKey){
-  try{ localStorage.setItem(SUBJECTS_KEYS[subjectKey], JSON.stringify(progressStore[subjectKey])); }catch(e){ /* ignore */ }
-}
-
-function allTopicsFlat(subjectKey){
-  return SUBJECTS[subjectKey].chapters.flatMap(c => c.topics.map(t => ({...t, chapter:c.title})));
-}
-function getTopic(subjectKey, id){ return allTopicsFlat(subjectKey).find(t => t.id === id); }
-function totalTopics(subjectKey){ return SUBJECTS[subjectKey].chapters.reduce((a,c)=>a+c.topics.length,0); }
-
-/* ================================================================
-   Render: subject switcher + rail
-   ================================================================ */
-function renderSubjectSwitch(){
-  const wrap = document.getElementById('subjectSwitch');
-  wrap.innerHTML = '';
-  Object.values(SUBJECTS).forEach(s=>{
-    const btn = document.createElement('button');
-    btn.className = 'subject-btn' + (s.key===activeSubject ? ' active':'');
-    btn.innerHTML = `${s.icon} ${s.navLabel}`;
-    btn.addEventListener('click', ()=>{
-      if(activeSubject === s.key) return;
-      activeSubject = s.key;
-      document.documentElement.setAttribute('data-subject', activeSubject);
-      renderAll();
+const TOPICS = [];
+Object.entries(SUBJECTS).forEach(([sid, s])=>{
+  s.total = 0;
+  s.chapters.forEach((ch, ci)=>{
+    ch.topics.forEach(t=>{
+      t.subject = sid; t.n = t.id; t.key = s.prefix + t.id;
+      t.chapter = ch.title; t.chapterNo = ci + 1;
+      TOPICS.push(t); s.total++;
     });
-    wrap.appendChild(btn);
   });
-}
+});
+function getTopic(key){ return TOPICS.find(t => t.key === key); }
 
-function renderBrand(){
-  document.getElementById('brandMark').textContent = subj().brandMark;
-  document.getElementById('brandSub').textContent = subj().brandSub;
-  document.getElementById('progressLabel').textContent = subj().unitLabel;
-}
+/* ================= State ================= */
+const STORE_KEY = 'alg9_tutor_progress_v1';   // ключ збережено, щоб не втратити прогрес з алгебри
+const SUBJ_KEY  = 'tutor9_subject_v1';
+let progress = loadProgress();
+let activeSubject = loadSubject();
+let activeKey = null;
+let activeTab = 'explain'; // explain | homework | quiz
+let sampleFn = null;
+let sampleReady = false;
+const conversations = {};  // "key::tab" -> [{role, content}]
 
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : { done:{} }; }
+  catch(e){ return { done:{} }; }
+}
+function saveProgress(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(progress)); }catch(e){} }
+function loadSubject(){
+  try{ const s = localStorage.getItem(SUBJ_KEY); return SUBJECTS[s] ? s : 'geo'; }
+  catch(e){ return 'geo'; }
+}
+function saveSubject(){ try{ localStorage.setItem(SUBJ_KEY, activeSubject); }catch(e){} }
+
+/* ================= Render: rail ================= */
 function renderRail(){
-  renderSubjectSwitch();
-  renderBrand();
+  const subj = document.getElementById('subj');
+  subj.innerHTML = '';
+  Object.entries(SUBJECTS).forEach(([sid, s])=>{
+    const b = document.createElement('button');
+    b.textContent = s.label;
+    b.className = sid === activeSubject ? 'active' : '';
+    b.setAttribute('aria-pressed', sid === activeSubject ? 'true' : 'false');
+    b.addEventListener('click', ()=>{
+      if(sid === activeSubject) return;
+      activeSubject = sid; saveSubject(); activeKey = null; activeTab = 'explain';
+      renderRail(); renderTopicArea(); resetLabel();
+    });
+    subj.appendChild(b);
+  });
+
   const wrap = document.getElementById('chapters');
   wrap.innerHTML = '';
-  const s = subj();
-  const sel = selection[activeSubject];
-  s.chapters.forEach(ch=>{
+  SUBJECTS[activeSubject].chapters.forEach(ch=>{
     const head = document.createElement('div');
     head.className = 'chapter-head';
     head.textContent = ch.title;
@@ -558,10 +367,10 @@ function renderRail(){
     box.className = 'chapter';
     ch.topics.forEach(t=>{
       const btn = document.createElement('button');
-      const done = !!progressStore[activeSubject].done[t.id];
-      btn.className = 'topic-btn' + (t.id===sel.topicId ? ' active':'') + (done ? ' done':'');
-      btn.innerHTML = `<span class="num">${done ? '✓' : t.id}</span><span class="ttl">${escapeHtml(t.title)}</span>`;
-      btn.addEventListener('click', ()=> selectTopic(t.id));
+      const done = !!progress.done[t.key];
+      btn.className = 'topic-btn' + (t.key === activeKey ? ' active':'') + (done ? ' done':'');
+      btn.innerHTML = `<span class="num">${done ? '✓' : t.n}</span><span class="ttl">${escapeHtml(t.title)}</span>`;
+      btn.addEventListener('click', ()=> selectTopic(t.key));
       box.appendChild(btn);
     });
     wrap.appendChild(box);
@@ -569,44 +378,45 @@ function renderRail(){
   updateProgressBar();
 }
 function updateProgressBar(){
-  const total = totalTopics(activeSubject);
-  const done = Object.values(progressStore[activeSubject].done).filter(Boolean).length;
-  document.getElementById('progressText').textContent = `${done} / ${total}`;
-  document.getElementById('progressFill').style.width = (total ? done/total*100 : 0) + '%';
+  const s = SUBJECTS[activeSubject];
+  const done = TOPICS.filter(t => t.subject === activeSubject && progress.done[t.key]).length;
+  document.getElementById('progressText').textContent = `${done} / ${s.total}`;
+  document.getElementById('progressFill').style.width = (done / s.total * 100) + '%';
 }
 
-/* ================================================================
-   Render: main topic area
-   ================================================================ */
-function selectTopic(id){
-  selection[activeSubject] = { topicId:id, tab:'explain' };
+/* ================= Render: main topic area ================= */
+function selectTopic(key){
+  activeKey = key;
+  activeTab = 'explain';
   renderRail();
   renderTopicArea();
+  if(window.matchMedia('(max-width: 860px)').matches){
+    document.getElementById('mainArea').scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 
 function renderTopicArea(){
   const area = document.getElementById('topicArea');
   const crumbs = document.getElementById('crumbs');
-  const s = subj();
-  const sel = selection[activeSubject];
-  if(sel.topicId === null){
+  if(!activeKey){
+    const s = SUBJECTS[activeSubject];
     crumbs.textContent = 'Оберіть тему зліва';
     area.innerHTML = `<div class="topic-card"><div class="empty-state">
-      Оберіть тему у списку зліва — я допоможу розібратися, підготуватися до домашнього завдання
-      крок за кроком або перевірити себе міні-тестом.</div></div>`;
+      Оберіть пункт підручника ${escapeHtml(s.book)} у списку зліва — я допоможу розібратися в темі, розв’язати
+      домашнє завдання крок за кроком або перевірити себе міні-тестом.</div></div>`;
     return;
   }
-  const t = getTopic(activeSubject, sel.topicId);
-  crumbs.innerHTML = `<b>${escapeHtml(t.chapter)}</b>${s.crumbExtra(t)}`;
-  const done = !!progressStore[activeSubject].done[t.id];
+  const t = getTopic(activeKey);
+  crumbs.innerHTML = `<b>${escapeHtml(t.chapter)}</b> · Пункт ${t.n}`;
+  const done = !!progress.done[t.key];
 
   area.innerHTML = `
     <div class="topic-card">
-      <h1 class="topic-title">${escapeHtml(s.titleFor(t))}</h1>
+      <h1 class="topic-title">${t.n}. ${escapeHtml(t.title)}</h1>
       <p class="topic-blurb">${escapeHtml(t.blurb)}</p>
       <label class="mark-done">
         <input type="checkbox" id="doneCheck" ${done?'checked':''}>
-        ${s.doneLabel}
+        Позначити пункт як пройдений
       </label>
       <div class="tabs" id="tabs">
         <button class="tab" data-tab="explain">Поясни тему</button>
@@ -617,38 +427,41 @@ function renderTopicArea(){
     <div id="panelWrap"></div>
   `;
   document.getElementById('doneCheck').addEventListener('change', e=>{
-    progressStore[activeSubject].done[t.id] = e.target.checked;
-    saveProgress(activeSubject); renderRail();
+    progress.done[t.key] = e.target.checked;
+    saveProgress(); renderRail();
   });
   document.querySelectorAll('#tabs .tab').forEach(btn=>{
-    btn.classList.toggle('active', btn.dataset.tab === sel.tab);
-    btn.addEventListener('click', ()=>{ selection[activeSubject].tab = btn.dataset.tab; renderTopicArea(); });
+    btn.classList.toggle('active', btn.dataset.tab === activeTab);
+    btn.addEventListener('click', ()=>{ activeTab = btn.dataset.tab; renderTopicArea(); });
   });
   renderPanel(t);
 }
 
 function renderPanel(t){
   const wrap = document.getElementById('panelWrap');
-  const s = subj();
-  const sel = selection[activeSubject];
-
-  if(sel.tab === 'quiz'){
+  const isGeo = t.subject === 'geo';
+  if(activeTab === 'quiz'){
     wrap.innerHTML = `
       <div class="panel">
-        <p class="panel-hint">${s.quizIntro(t.title)}</p>
-        <div id="quizArea"><div class="empty-state">${s.quizEmpty}</div></div>
+        <p class="panel-hint">Я складу задачу за темою «${escapeHtml(t.title)}». Спочатку розв’яжи сам(а) на чернетці${isGeo ? ' і зроби рисунок' : ''} — потім тисни «Показати підказку» або «Показати відповідь».</p>
+        <div id="quizArea"><div class="empty-state">Натисни кнопку нижче, щоб отримати задачу.</div></div>
         <div class="quiz-actions">
-          <button class="ghost-btn primary" id="genQuizBtn">${s.quizBtnLabel}</button>
+          <button class="ghost-btn primary" id="genQuizBtn">Дати задачу за темою</button>
         </div>
       </div>`;
     document.getElementById('genQuizBtn').addEventListener('click', ()=>generateQuiz(t));
     return;
   }
 
-  const key = `${activeSubject}::${t.id}::${sel.tab}`;
+  const key = t.key + '::' + activeTab;
   if(!conversations[key]) conversations[key] = [];
-  const hint = sel.tab === 'explain' ? s.explainHint : s.homeworkHint;
-  const chips = sel.tab === 'explain' ? s.chipsExplain : s.chipsHomework;
+  const hint = activeTab === 'explain'
+    ? 'Я поясню тему своїми словами, з прикладами і запитаннями по ходу — не просто перекажу параграф.'
+    : '<b>Важливо:</b> надішли умову задачі та те, що вже пробував(ла). Я ставитиму навідні запитання, а не розв’язуватиму замість тебе.';
+  const chips = activeTab === 'explain'
+    ? ['Поясни з самого початку', 'Наведи приклад', 'У чому тут складність для мене?']
+    : ['Я не знаю, з чого почати', 'Перевір моє розв’язання', 'Дай підказку, не розв’язання'];
+  if(isGeo && activeTab === 'homework') chips.push('Допоможи зробити рисунок');
 
   wrap.innerHTML = `
     <div class="panel">
@@ -656,7 +469,8 @@ function renderPanel(t){
       <div class="chat-log" id="chatLog"></div>
       <div class="quick-row" id="quickRow"></div>
       <div class="composer">
-        <textarea id="msgInput" rows="1" placeholder="${sel.tab==='explain' ? s.placeholderExplain : s.placeholderHomework}"></textarea>
+        <label for="msgInput" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Повідомлення</label>
+        <textarea id="msgInput" rows="1" placeholder="${activeTab==='explain' ? 'Запитай про тему або попроси пояснити з прикладом…' : 'Опиши задачу своїми словами або встав умову…'}"></textarea>
         <button class="send-btn" id="sendBtn">Надіслати</button>
       </div>
     </div>`;
@@ -675,7 +489,7 @@ function renderPanel(t){
   sendBtn.addEventListener('click', ()=>{
     const val = input.value.trim();
     if(!val) return;
-    input.value = '';
+    input.value = ''; input.style.height = 'auto';
     sendMessage(t, val);
   });
   input.addEventListener('keydown', e=>{
@@ -687,7 +501,9 @@ function renderPanel(t){
   });
 
   if(conversations[key].length === 0){
-    const greet = sel.tab === 'explain' ? s.greetExplain(t.title) : s.greetHomework(t.title);
+    const greet = activeTab === 'explain'
+      ? `Привіт! Розбираємо пункт «${t.title}». З чого хочеш почати: із самого поняття, з прикладу чи в тебе вже є запитання?`
+      : `Привіт! Надішли умову задачі за темою «${t.title}» і те, що ти вже встиг(ла) спробувати — навіть якщо це просто думки вголос.${isGeo ? ' Якщо можеш, опиши й рисунок: які точки, відрізки й кути на ньому є.' : ''} Далі розберемося разом.`;
     conversations[key].push({role:'assistant', content: greet, synthetic:true});
     renderChatLog(key);
   }
@@ -706,107 +522,144 @@ function renderChatLog(key){
   log.scrollTop = log.scrollHeight;
 }
 
-/* ================================================================
-   Messaging via the team's Gemini server
-   ================================================================ */
-async function callServer(prompt){
-  try{
-    const resp = await fetch(SERVER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
-    const data = await resp.json();
-    return data.ok ? { ok:true, text:data.text } : { ok:false, text:'' };
-  }catch(e){
-    return { ok:false, text:'' };
-  }
+/* ================= Messaging via sample capability ================= */
+async function ensureSample(){
+  if(sampleReady) return sampleFn;
+  try{ sampleFn = await claude.use('sample'); }catch(e){ sampleFn = null; }
+  sampleReady = true;
+  return sampleFn;
 }
 
-// Сервер приймає лише один текстовий prompt (без списку messages/ролей),
-// тож весь діалог доводиться серіалізувати в один текст перед кожним викликом.
-function buildDialoguePrompt(t, tab, key){
-  const sys = subj().systemPrompt(t, tab);
-  const history = conversations[key].filter(m => !m.synthetic);
-  const turns = history.map(m => (m.role === 'user' ? 'Учень: ' : 'Репетитор: ') + m.content).join('\n\n');
-  return `${sys}\n\n— Далі йде історія діалогу з учнем —\n\n${turns}\n\nРепетитор:`;
+function systemPromptFor(t, tab){
+  const s = SUBJECTS[t.subject];
+  const isGeo = t.subject === 'geo';
+  const subjectName = isGeo ? 'геометрії' : 'алгебри';
+  const base = `Ти — терплячий репетитор з ${subjectName} для українського 9 класу, працюєш строго за підручником
+Мерзляка А. Г. і Якіра М. С. ${s.book} (§ ${t.chapterNo}, пункт ${t.n}: «${t.title}»).
+Тема пункту: ${t.blurb}
+${t.facts ? `\nОпорні твердження підручника з цього пункту (вважай їх істинними, користуйся ними):\n${t.facts}\n` : ''}
+ГОЛОВНЕ ПРАВИЛО: ніколи не давай одразу готове розв’язання або готову відповідь, навіть якщо учень просить.
+Твоя робота — підвести учня до розуміння, а не розв’язати замість нього. Дій як хороший репетитор біля дошки:
+1) Спочатку зрозумій, що учень уже знає і де саме затримка — за потреби постав одне уточнювальне запитання.
+2) Веди маленькими кроками: став навідні запитання, пропонуй учневі зробити наступний крок самостійно.
+3) Якщо учень помилився — не кажи прямо "неправильно", допоможи йому самому знайти й зрозуміти помилку.
+4) Повне розв’язання можна показати лише якщо учень уже кілька разів пробував сам і явно просить фінальну
+   перевірку — і навіть тоді супроводжуй розв’язання поясненням "чому", а не лише формулами.
+5) Пиши компактно (зазвичай 3-6 речень), доброзичливо, українською мовою, без канцеляриту.
+   Математику пиши звичайним рядком: x^2, sqrt(x), <= , >=, використовуй ², ³, √, ≤, ≥, ± де доречно.
+6) Хвали за правильні кроки коротко й по суті, не будь приторним.${isGeo ? `
+7) Ти не можеш показати рисунок, тому проси учня накреслити його і описати: які точки, відрізки, кути на ньому позначені.
+   Для кутів і фігур пиши ∠ABC, △ABC, градуси як 30°, вектори як "вектор AB". Не вигадуй даних, яких немає в умові.
+   Перш ніж застосувати теорему, запитай учня, які елементи трикутника йому відомі й які треба знайти.` : ''}`;
+
+  if(tab === 'explain'){
+    return base + `\n\nРежим: "Поясни тему". Учень хоче розібратися в новій темі з підручника. Пояснюй поняття
+своїми словами, з наочним прикладом, але чергуй пояснення з короткими перевірними запитаннями
+("а як думаєш, чому...", "спробуй сам продовжити..."), щоб учень не просто читав, а думав.`;
+  }
+  return base + `\n\nРежим: "Допоможи з домашнім завданням". Учень надіслав свою задачу або її частину. Не розв’язуй
+задачу повністю. Допоможи визначити, що потрібно знайти, який метод із цього пункту підходить, і дай учневі
+зробити наступний крок самостійно. Якщо учень надіслав своє розв’язання — спочатку оціни, де воно правильне,
+і м’яко вкажи напрям, де шукати помилку, не називаючи її прямо одразу.`;
 }
 
 async function sendMessage(t, text){
-  const key = `${activeSubject}::${t.id}::${selection[activeSubject].tab}`;
+  const key = t.key + '::' + activeTab;
   conversations[key].push({role:'user', content:text});
   renderChatLog(key);
   await runTutorTurn(t, key);
 }
 
 async function runTutorTurn(t, key){
+  const tabAtStart = activeTab;
+  const fn = await ensureSample();
   const log = document.getElementById('chatLog');
+  if(!fn){
+    conversations[key].push({role:'assistant', content:'Не вдалося під’єднатися до репетитора в цьому вікні перегляду. Спробуй відкрити застосунок безпосередньо в Claude.'});
+    renderChatLog(key);
+    return;
+  }
   const typingDiv = document.createElement('div');
   typingDiv.className = 'msg tutor';
   typingDiv.innerHTML = `<span class="label">Репетитор</span><div class="typing"><span></span><span></span><span></span></div>`;
   if(log){ log.appendChild(typingDiv); log.scrollTop = log.scrollHeight; }
 
+  const sys = systemPromptFor(t, tabAtStart);
+  const history = conversations[key]
+    .filter(m => !(m.synthetic))
+    .map(m => ({role: m.role === 'user' ? 'user' : 'assistant', content: m.content}));
+
+  const messages = [
+    {role:'user', content: sys},
+    {role:'assistant', content:'Зрозумів(ла). Вестиму крок за кроком, навідними запитаннями, без готових відповідей.'},
+    ...history
+  ];
+
   const sendBtn = document.getElementById('sendBtn');
   if(sendBtn) sendBtn.disabled = true;
 
-  const prompt = buildDialoguePrompt(t, selection[activeSubject].tab, key);
-  const res = await callServer(prompt);
-
-  if(res.ok && res.text){
-    conversations[key].push({role:'assistant', content: res.text.trim()});
-  }else{
-    conversations[key].push({role:'assistant', content: 'Не вдалося отримати відповідь від сервера. Перевірте з’єднання й спробуйте надіслати ще раз.'});
+  try{
+    const res = await fn(messages, {
+      modelTier:'default',
+      cache:false,
+      onText: ({text}) => {
+        if(typingDiv.isConnected){
+          typingDiv.innerHTML = `<span class="label">Репетитор</span>` + formatMsg(text);
+          log.scrollTop = log.scrollHeight;
+        }
+      }
+    });
+    conversations[key].push({role:'assistant', content: res.text});
+  }catch(e){
+    conversations[key].push({role:'assistant', content: 'Не вдалося отримати відповідь (' + (e && e.code ? e.code : 'помилка') + '). Спробуй надіслати ще раз.'});
+  }finally{
+    const nowBtn = document.getElementById('sendBtn');
+    if(nowBtn) nowBtn.disabled = false;
+    renderChatLog(key);
   }
-  if(sendBtn) sendBtn.disabled = false;
-  renderChatLog(key);
 }
 
-/* ================================================================
-   Quiz mode
-   ================================================================ */
+/* ================= Quiz mode ================= */
 async function generateQuiz(t){
   const area = document.getElementById('quizArea');
-  const s = subj();
   area.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
-
-  const prompt = s.quizPrompt(t);
-  const res = await callServer(prompt);
-  const data = res.ok ? parseQuizJson(res.text) : null;
-  if(data && data.problem){
-    renderQuizCard(t, data);
-  }else{
-    area.innerHTML = `<div class="empty-state">${s.quizFail}</div>`;
+  const fn = await ensureSample();
+  if(!fn){
+    area.innerHTML = `<div class="empty-state">Не вдалося під’єднатися до репетитора в цьому вікні перегляду.</div>`;
+    return;
   }
+  const s = SUBJECTS[t.subject];
+  const isGeo = t.subject === 'geo';
+  const prompt = `Ти складаєш ОДНУ тренувальну задачу для українського 9 класу за підручником Мерзляка/Якіра ${s.book},
+§ ${t.chapterNo}, пункт ${t.n}: «${t.title}» (${t.blurb}).
+${t.facts ? `Опорні твердження з пункту (вважай їх істинними):\n${t.facts}\n` : ''}Рівень — середній (не найлегший, не олімпіадний). Числа добирай так, щоб відповідь була зручною
+(цілі числа, прості дроби або прості корені), і перевір, що задача має розв’язок і відповідь правильна.
+${isGeo ? 'Умову сформулюй так, щоб її можна було зрозуміти без рисунка; у полі "figure" коротко опиши, що має накреслити учень.\n' : ''}Відповідай СТРОГО у форматі JSON без будь-яких пояснень до або після, без markdown-обрамлення:
+{
+  "problem": "текст задачі українською, компактно",
+  ${isGeo ? '"figure": "одне речення: що накреслити (фігура, позначення, відомі величини)",\n  ' : ''}"hint": "одна навідна підказка, що не розкриває розв’язання",
+  "answer": "коротка фінальна відповідь",
+  "explanation": "3-5 речень чому це так, хід розв’язання крок за кроком"
 }
+Математику пиши звичайним текстом (x^2, sqrt, <=, >=, ², ³, √, ≤, ≥, °).`;
 
-// Сервер іноді обгортає JSON у markdown-огорожі або додає текст навколо —
-// тому шукаємо перший повний {...} блок і парсимо саме його.
-function parseQuizJson(raw){
-  const txt = (raw || '').trim();
   try{
-    const obj = JSON.parse(txt);
-    if(obj && typeof obj === 'object') return obj;
-  }catch(e){ /* fall through */ }
-  const first = txt.indexOf('{');
-  const last = txt.lastIndexOf('}');
-  if(first !== -1 && last !== -1 && last > first){
-    try{
-      const obj = JSON.parse(txt.slice(first, last+1));
-      if(obj && typeof obj === 'object') return obj;
-    }catch(e){ /* ignore */ }
+    const data = await fn.json(prompt, {modelTier:'default', cache:false});
+    renderQuizCard(t, data);
+  }catch(e){
+    area.innerHTML = `<div class="empty-state">Не вдалося скласти задачу. Спробуй ще раз.</div>`;
   }
-  return null;
 }
 
 function renderQuizCard(t, data){
   const area = document.getElementById('quizArea');
-  const s = subj();
   area.innerHTML = `
     <div class="quiz-card">
       <p class="quiz-q">${formatMsg(data.problem || '')}</p>
+      ${data.figure ? `<p class="quiz-fig"><b>Накресли.</b> ${escapeHtml(data.figure)}</p>` : ''}
       <div class="quiz-actions">
         <button class="ghost-btn" id="hintBtn">Показати підказку</button>
-        <button class="ghost-btn" id="answerBtn">${s.answerBtnLabel}</button>
+        <button class="ghost-btn" id="answerBtn">Показати відповідь і розбір</button>
       </div>
       <div id="hintBox"></div>
       <div id="answerBox"></div>
@@ -816,15 +669,13 @@ function renderQuizCard(t, data){
   });
   document.getElementById('answerBtn').addEventListener('click', ()=>{
     document.getElementById('answerBox').innerHTML = `<div class="reveal">
-      <span class="k">Відповідь.</span> ${formatMsg(data.answer||'')}<br><br>
-      <span class="k">${s.explanationLabel}</span> ${formatMsg(data.explanation||'')}
+      <span class="k">Відповідь.</span> ${formatMsg(data.answer||'')}
+      <span class="k">Розбір.</span> ${formatMsg(data.explanation||'')}
     </div>`;
   });
 }
 
-/* ================================================================
-   Utils
-   ================================================================ */
+/* ================= Utils ================= */
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
@@ -848,21 +699,29 @@ function formatMsg(raw){
   return html || '<p></p>';
 }
 
-function renderAll(){
-  renderRail();
-  renderTopicArea();
+/* Скидання прогресу у два кліки: вікна confirm() у переглядачі не показуються */
+let resetArmed = false, resetTimer = null;
+const resetBtn = document.getElementById('resetProgressBtn');
+function resetLabel(){
+  resetArmed = false; clearTimeout(resetTimer);
+  resetBtn.classList.remove('armed');
+  resetBtn.textContent = 'Скинути прогрес: ' + SUBJECTS[activeSubject].label.toLowerCase();
 }
-
-document.getElementById('resetProgressBtn').addEventListener('click', ()=>{
-  if(confirm('Скинути прогрес за темами цього предмета?')){
-    progressStore[activeSubject] = { done:{} };
-    saveProgress(activeSubject);
-    renderRail();
+resetBtn.addEventListener('click', ()=>{
+  if(!resetArmed){
+    resetArmed = true;
+    resetBtn.classList.add('armed');
+    resetBtn.textContent = 'Точно скинути? Натисни ще раз';
+    resetTimer = setTimeout(resetLabel, 4000);
+    return;
   }
+  TOPICS.filter(t => t.subject === activeSubject).forEach(t => { delete progress.done[t.key]; });
+  saveProgress(); resetLabel(); renderRail(); renderTopicArea();
 });
 
-document.documentElement.setAttribute('data-subject', activeSubject);
-renderAll();
+resetLabel();
+renderRail();
+renderTopicArea();
 </script>
-</body>
-</html>
+
+</body></html>
