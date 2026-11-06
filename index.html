@@ -159,6 +159,13 @@
   .send-btn:disabled{opacity:.5; cursor:default;}
   .send-btn:hover:not(:disabled){background:var(--ink-2);}
 
+  .attach-btn{flex:none; width:44px; height:44px; border-radius:8px; border:1.4px solid var(--line); background:var(--paper); font-size:20px; cursor:pointer; line-height:1;}
+  .attach-btn:hover:not(:disabled){border-color:var(--ink-soft);}
+  .attach-btn:disabled{opacity:.5; cursor:default;}
+  .attach-preview{display:flex; align-items:center; gap:10px; margin-top:6px; font-size:13px; color:var(--text-soft);}
+  .attach-preview img{height:64px; width:auto; max-width:120px; object-fit:cover; border-radius:6px; border:1px solid var(--line);}
+  .attach-preview button{border:none; background:none; color:var(--red); cursor:pointer; font-size:13px; font-family:var(--font-body); text-decoration:underline;}
+  .msg-img{display:block; max-width:100%; max-height:240px; border-radius:6px; margin:4px 0 8px; background:#fff;}
   .quick-row{display:flex; gap:8px; flex-wrap:wrap; margin:2px 0 14px;}
   .quick-chip{font-size:12.5px; padding:6px 11px; border-radius:999px; border:1px solid var(--line); background:var(--paper); color:var(--ink-soft); cursor:pointer; font-family:var(--font-body);}
   .quick-chip:hover{border-color:var(--ink-soft); color:var(--ink);}
@@ -324,8 +331,7 @@ let progress = loadProgress();
 let activeSubject = loadSubject();
 let activeKey = null;
 let activeTab = 'explain'; // explain | homework | quiz
-let sampleFn = null;
-let sampleReady = false;
+let pendingImage = null;   // фото, яке ще не надіслано
 const conversations = {};  // "key::tab" -> [{role, content}]
 
 function loadProgress(){
@@ -457,7 +463,7 @@ function renderPanel(t){
   if(!conversations[key]) conversations[key] = [];
   const hint = activeTab === 'explain'
     ? 'Я поясню тему своїми словами, з прикладами і запитаннями по ходу — не просто перекажу параграф.'
-    : '<b>Важливо:</b> надішли умову задачі та те, що вже пробував(ла). Я ставитиму навідні запитання, а не розв’язуватиму замість тебе.';
+    : '<b>Важливо:</b> надішли умову задачі (текстом або 📷 фото) та те, що вже пробував(ла). Я розберу задачу разом із тобою навідними запитаннями, а не розв’яжу замість тебе.';
   const chips = activeTab === 'explain'
     ? ['Поясни з самого початку', 'Наведи приклад', 'У чому тут складність для мене?']
     : ['Я не знаю, з чого почати', 'Перевір моє розв’язання', 'Дай підказку, не розв’язання'];
@@ -468,7 +474,9 @@ function renderPanel(t){
       <p class="panel-hint">${hint}</p>
       <div class="chat-log" id="chatLog"></div>
       <div class="quick-row" id="quickRow"></div>
+      <div id="attachPreview" class="attach-preview" hidden></div>
       <div class="composer">
+        ${activeTab==='homework' ? '<button class="attach-btn" id="attachBtn" type="button" title="Додати фото задачі" aria-label="Додати фото задачі">📷</button><input type="file" id="photoInput" accept="image/*" hidden>' : ''}
         <label for="msgInput" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Повідомлення</label>
         <textarea id="msgInput" rows="1" placeholder="${activeTab==='explain' ? 'Запитай про тему або попроси пояснити з прикладом…' : 'Опиши задачу своїми словами або встав умову…'}"></textarea>
         <button class="send-btn" id="sendBtn">Надіслати</button>
@@ -486,11 +494,35 @@ function renderPanel(t){
   renderChatLog(key);
   const input = document.getElementById('msgInput');
   const sendBtn = document.getElementById('sendBtn');
+  pendingImage = null;
+  const attachBtn = document.getElementById('attachBtn');
+  const photoInput = document.getElementById('photoInput');
+  const preview = document.getElementById('attachPreview');
+  function renderPreview(){
+    if(!preview) return;
+    if(!pendingImage){ preview.hidden = true; preview.innerHTML = ''; return; }
+    preview.hidden = false;
+    preview.innerHTML = `<img src="${pendingImage.dataUrl}" alt="Фото задачі"><span>Фото додано</span><button type="button" id="removePhoto">Прибрати</button>`;
+    document.getElementById('removePhoto').addEventListener('click', ()=>{ pendingImage = null; renderPreview(); });
+  }
+  if(attachBtn && photoInput){
+    attachBtn.addEventListener('click', ()=> photoInput.click());
+    photoInput.addEventListener('change', async ()=>{
+      const f = photoInput.files && photoInput.files[0];
+      photoInput.value = '';
+      if(!f) return;
+      attachBtn.disabled = true;
+      try{ pendingImage = await prepareImage(f); renderPreview(); }
+      catch(e){ pendingImage = null; renderPreview(); alert('Не вдалося обробити фото. Спробуй інше.'); }
+      finally{ attachBtn.disabled = false; }
+    });
+  }
   sendBtn.addEventListener('click', ()=>{
     const val = input.value.trim();
-    if(!val) return;
+    if(!val && !pendingImage) return;
+    const img = pendingImage; pendingImage = null; renderPreview();
     input.value = ''; input.style.height = 'auto';
-    sendMessage(t, val);
+    sendMessage(t, val || 'Ось фото задачі. Допоможи розібратися.', img);
   });
   input.addEventListener('keydown', e=>{
     if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendBtn.click(); }
@@ -503,7 +535,7 @@ function renderPanel(t){
   if(conversations[key].length === 0){
     const greet = activeTab === 'explain'
       ? `Привіт! Розбираємо пункт «${t.title}». З чого хочеш почати: із самого поняття, з прикладу чи в тебе вже є запитання?`
-      : `Привіт! Надішли умову задачі за темою «${t.title}» і те, що ти вже встиг(ла) спробувати — навіть якщо це просто думки вголос.${isGeo ? ' Якщо можеш, опиши й рисунок: які точки, відрізки й кути на ньому є.' : ''} Далі розберемося разом.`;
+      : `Привіт! Надішли умову задачі за темою «${t.title}» — текстом або фото (кнопка 📷) — і те, що ти вже встиг(ла) спробувати, навіть якщо це просто думки вголос.${isGeo ? ' Якщо можеш, опиши й рисунок: які точки, відрізки й кути на ньому є.' : ''} Далі розберемося разом.`;
     conversations[key].push({role:'assistant', content: greet, synthetic:true});
     renderChatLog(key);
   }
@@ -516,18 +548,70 @@ function renderChatLog(key){
   conversations[key].forEach(m=>{
     const div = document.createElement('div');
     div.className = 'msg ' + (m.role === 'user' ? 'student' : 'tutor');
-    div.innerHTML = `<span class="label">${m.role==='user' ? 'Ти' : 'Репетитор'}</span>` + formatMsg(m.content);
+    div.innerHTML = `<span class="label">${m.role==='user' ? 'Ти' : 'Репетитор'}</span>` + (m.image ? `<img class="msg-img" src="${m.image.dataUrl}" alt="Фото задачі">` : '') + formatMsg(m.content);
     log.appendChild(div);
   });
   log.scrollTop = log.scrollHeight;
 }
 
-/* ================= Messaging via sample capability ================= */
-async function ensureSample(){
-  if(sampleReady) return sampleFn;
-  try{ sampleFn = await claude.use('sample'); }catch(e){ sampleFn = null; }
-  sampleReady = true;
-  return sampleFn;
+/* ================= Зв’язок із сервером (Gemini на Render) ================= */
+const SERVER_BASE = 'https://gemini-api-server-dnzk.onrender.com';
+const SERVER_TIMEOUT_MS = 150000;   // безкоштовний Render може «прокидатися» до хвилини
+
+// «Будимо» сервер одразу при відкритті сторінки
+fetch(SERVER_BASE + '/health', {mode:'no-cors'}).catch(()=>{});
+
+// Стискаємо фото (довша сторона ≤ 1600 px, JPEG) — щоб швидко йшло на сервер і лишалося читабельним
+async function prepareImage(file){
+  const url = URL.createObjectURL(file);
+  try{
+    const img = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=>res(i); i.onerror = rej; i.src = url; });
+    const MAX = 1600;
+    const k = Math.min(1, MAX / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    let q = 0.85, dataUrl = c.toDataURL('image/jpeg', q);
+    while(dataUrl.length > 2.5e6 && q > 0.4){ q -= 0.1; dataUrl = c.toDataURL('image/jpeg', q); }
+    return { dataUrl, mimeType:'image/jpeg', data: dataUrl.split(',')[1] };
+  } finally { URL.revokeObjectURL(url); }
+}
+
+async function askServer(prompt, opts){
+  const onSlow = opts && opts.onSlow;
+  const images = (opts && opts.images) || [];
+  let lastErr = new Error('невідома помилка');
+  for(let attempt = 0; attempt < 2; attempt++){
+    const ctrl = new AbortController();
+    const timer = setTimeout(()=> ctrl.abort(), SERVER_TIMEOUT_MS);
+    const slow = onSlow ? setTimeout(onSlow, 8000) : null;
+    try{
+      const resp = await fetch(SERVER_BASE + '/api/generate', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(images.length ? {prompt, images} : {prompt}),
+        signal: ctrl.signal
+      });
+      let data = null;
+      try{ data = await resp.json(); }catch(e){}
+      if(data && data.ok && data.text) return data.text;
+      lastErr = new Error((data && data.error) || ('HTTP ' + resp.status));
+    }catch(e){
+      lastErr = e;
+    }finally{
+      clearTimeout(timer); if(slow) clearTimeout(slow);
+    }
+  }
+  throw lastErr;
+}
+
+function extractJson(text){
+  let s = String(text).replace(/```json|```/gi, '').trim();
+  const i = s.indexOf('{'), j = s.lastIndexOf('}');
+  if(i < 0 || j <= i) throw new Error('no json');
+  return JSON.parse(s.slice(i, j + 1));
 }
 
 function systemPromptFor(t, tab){
@@ -560,58 +644,59 @@ ${t.facts ? `\nОпорні твердження підручника з цьо�
   return base + `\n\nРежим: "Допоможи з домашнім завданням". Учень надіслав свою задачу або її частину. Не розв’язуй
 задачу повністю. Допоможи визначити, що потрібно знайти, який метод із цього пункту підходить, і дай учневі
 зробити наступний крок самостійно. Якщо учень надіслав своє розв’язання — спочатку оціни, де воно правильне,
-і м’яко вкажи напрям, де шукати помилку, не називаючи її прямо одразу.`;
+і м’яко вкажи напрям, де шукати помилку, не називаючи її прямо одразу.
+
+Якщо учень надіслав ФОТО задачі (або свого розв’язання):
+1) Спочатку перепиши умову текстом (і, для геометрії, коротко опиши, що бачиш на рисунку), щоб учень підтвердив, що ти прочитав правильно. Якщо щось нечітко — запитай, а не вгадуй.
+2) НЕ розв’язуй задачу і не давай відповіді, навіть якщо вона видна на фото чи учень просить. Це розбір, а не розв’язання.
+3) Розбери задачу разом: що дано, що знайти, яке твердження/метод з цього пункту тут працює. Потім постав ОДНЕ навідне запитання або запропонуй ОДИН наступний крок для учня.
+4) Якщо на фото є розв’язання учня — відзнач, що в ньому правильно, і м’яко вкажи, у якому рядку/кроці варто перевірити, не виправляючи за нього.`;
 }
 
-async function sendMessage(t, text){
+async function sendMessage(t, text, image){
   const key = t.key + '::' + activeTab;
-  conversations[key].push({role:'user', content:text});
+  conversations[key].push({role:'user', content:text, image: image || undefined});
   renderChatLog(key);
   await runTutorTurn(t, key);
 }
 
 async function runTutorTurn(t, key){
   const tabAtStart = activeTab;
-  const fn = await ensureSample();
   const log = document.getElementById('chatLog');
-  if(!fn){
-    conversations[key].push({role:'assistant', content:'Не вдалося під’єднатися до репетитора в цьому вікні перегляду. Спробуй відкрити застосунок безпосередньо в Claude.'});
-    renderChatLog(key);
-    return;
-  }
   const typingDiv = document.createElement('div');
   typingDiv.className = 'msg tutor';
   typingDiv.innerHTML = `<span class="label">Репетитор</span><div class="typing"><span></span><span></span><span></span></div>`;
   if(log){ log.appendChild(typingDiv); log.scrollTop = log.scrollHeight; }
 
   const sys = systemPromptFor(t, tabAtStart);
-  const history = conversations[key]
-    .filter(m => !(m.synthetic))
-    .map(m => ({role: m.role === 'user' ? 'user' : 'assistant', content: m.content}));
-
-  const messages = [
-    {role:'user', content: sys},
-    {role:'assistant', content:'Зрозумів(ла). Вестиму крок за кроком, навідними запитаннями, без готових відповідей.'},
-    ...history
-  ];
+  const transcript = conversations[key]
+    .filter(m => !m.synthetic)
+    .map(m => (m.role === 'user' ? 'Учень: ' : 'Репетитор: ') + m.content)
+    .join('\n\n');
+  const lastImg = [...conversations[key]].reverse().find(m => m.image);
+  const images = lastImg ? [{mimeType: lastImg.image.mimeType, data: lastImg.image.data}] : [];
+  const imgNote = images.length
+    ? '\n\nДо цього запиту додано ФОТО, яке учень надіслав (воно стосується діалогу вище). Якщо ти не бачиш зображення або воно нечитабельне — прямо скажи про це й попроси переслати чіткіше, нічого не вигадуй.'
+    : '';
+  const prompt = sys + '\n\nДіалог досі:\n\n' + transcript + imgNote +
+    '\n\nНапиши наступну репліку Репетитора — лише текст репліки, без префікса «Репетитор:».';
 
   const sendBtn = document.getElementById('sendBtn');
   if(sendBtn) sendBtn.disabled = true;
 
   try{
-    const res = await fn(messages, {
-      modelTier:'default',
-      cache:false,
-      onText: ({text}) => {
+    let text = await askServer(prompt, {
+      images,
+      onSlow: ()=>{
         if(typingDiv.isConnected){
-          typingDiv.innerHTML = `<span class="label">Репетитор</span>` + formatMsg(text);
-          log.scrollTop = log.scrollHeight;
+          typingDiv.innerHTML = `<span class="label">Репетитор</span><p>Сервер прокидається, це може тривати до хвилини…</p><div class="typing"><span></span><span></span><span></span></div>`;
         }
       }
     });
-    conversations[key].push({role:'assistant', content: res.text});
+    text = text.replace(/^\s*Репетитор:\s*/i, '').trim();
+    conversations[key].push({role:'assistant', content: text});
   }catch(e){
-    conversations[key].push({role:'assistant', content: 'Не вдалося отримати відповідь (' + (e && e.code ? e.code : 'помилка') + '). Спробуй надіслати ще раз.'});
+    conversations[key].push({role:'assistant', content: 'Не вдалося отримати відповідь від сервера. Зачекай хвилину й надішли ще раз.'});
   }finally{
     const nowBtn = document.getElementById('sendBtn');
     if(nowBtn) nowBtn.disabled = false;
@@ -623,11 +708,6 @@ async function runTutorTurn(t, key){
 async function generateQuiz(t){
   const area = document.getElementById('quizArea');
   area.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
-  const fn = await ensureSample();
-  if(!fn){
-    area.innerHTML = `<div class="empty-state">Не вдалося під’єднатися до репетитора в цьому вікні перегляду.</div>`;
-    return;
-  }
   const s = SUBJECTS[t.subject];
   const isGeo = t.subject === 'geo';
   const prompt = `Ти складаєш ОДНУ тренувальну задачу для українського 9 класу за підручником Мерзляка/Якіра ${s.book},
@@ -643,11 +723,19 @@ ${isGeo ? 'Умову сформулюй так, щоб її можна було
 }
 Математику пиши звичайним текстом (x^2, sqrt, <=, >=, ², ³, √, ≤, ≥, °).`;
 
+  const slowTimer = setTimeout(()=>{
+    if(area.isConnected) area.innerHTML = `<p class="panel-hint">Сервер прокидається, це може тривати до хвилини…</p><div class="typing"><span></span><span></span><span></span></div>`;
+  }, 8000);
   try{
-    const data = await fn.json(prompt, {modelTier:'default', cache:false});
+    let data = null;
+    for(let i = 0; i < 2 && !data; i++){
+      try{ data = extractJson(await askServer(prompt)); }catch(e){ if(i === 1) throw e; }
+    }
     renderQuizCard(t, data);
   }catch(e){
     area.innerHTML = `<div class="empty-state">Не вдалося скласти задачу. Спробуй ще раз.</div>`;
+  }finally{
+    clearTimeout(slowTimer);
   }
 }
 
